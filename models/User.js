@@ -48,12 +48,23 @@ userSchema.pre('save', function( next ){
 
              })
         })
+    } else {
+        next()
     }
 })
 
 
     
+userSchema.methods.comparePassword = function(plainPassword, cb) {
 
+    //plainPassword 1234566    암호화된 비밀번호 $2b$10$KZNca1l0GJGn4MMq8MO2.OlPxGUdL4poJHnemxuhfLKqZw7V2H9Oy
+    bcrypt.compare(plainPassword, this.password, function(err, isMatch) {
+        if(err) return cb(err),
+        cb(null, isMatch)
+    })
+
+
+}
 
 
 
